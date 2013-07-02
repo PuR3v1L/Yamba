@@ -12,29 +12,30 @@ import winterwell.jtwitter.Twitter;
 
 public class StatusActivity extends Activity implements OnClickListener { //
 
-    private static final String TAG = "StatusActivity";
-    EditText editText;
-    Button updateButton;
-    Twitter twitter;
+	private static final String TAG = "StatusActivity";
+	EditText editText;
+	Button updateButton;
+	Twitter twitter;
 
-    /** Called when the activity is first created. */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
+	/**
+	 * Called when the activity is first created.
+	 */
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_status);
-        // Find views
-        editText = (EditText) findViewById(R.id.editText); //
-        updateButton = (Button) findViewById(R.id.buttonUpdate);
-        updateButton.setOnClickListener(this); //
-        twitter = new Twitter("student", "password"); //
-        twitter.setAPIRootUrl("http://yamba.marakana.com/api");
-    }
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_status);
+		// Find views
+		editText = (EditText) findViewById(R.id.editText); //
+		updateButton = (Button) findViewById(R.id.buttonUpdate);
+		updateButton.setOnClickListener(this); //
+		twitter = new Twitter("student", "password"); //
+		twitter.setAPIRootUrl("http://yamba.marakana.com/api");
+	}
 
-    // Called when button is clicked //
-    public void onClick(View v) {
-
-        twitter.setStatus(editText.getText().toString()); //
-        Log.d(TAG, "onClicked");
-    }
+	// Called when button is clicked //
+	public void onClick(View v) {
+		twitter.setStatus(editText.getText().toString()); //
+		Log.d(TAG, "onClicked");
+	}
 }
