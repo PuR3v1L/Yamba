@@ -13,7 +13,9 @@
         android:layout_margin="10dp"
         android:gravity="center"
         android:text="@string/titleStatus"
-        android:textSize="30sp" />
+        android:textSize="25sp"
+        android:textStyle="italic" />
+
     <!-- Status EditText -->
 
     <EditText
@@ -28,7 +30,8 @@
 
     <Button
         android:id="@+id/buttonUpdate"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
         android:text="@string/buttonUpdate"
         android:textSize="20sp" >
