@@ -10,9 +10,12 @@ import android.widget.EditText;
 
 import winterwell.jtwitter.Twitter;
 
+
 public class StatusActivity extends Activity implements OnClickListener { //
 
+
 	private static final String TAG = "StatusActivity";
+
 	EditText editText;
 	Button updateButton;
 	Twitter twitter;
@@ -26,16 +29,17 @@ public class StatusActivity extends Activity implements OnClickListener { //
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_status);
 		// Find views
-		editText = (EditText) findViewById(R.id.editText); //
+		editText = (EditText) findViewById(R.id.editText);
 		updateButton = (Button) findViewById(R.id.buttonUpdate);
-		updateButton.setOnClickListener(this); //
-		twitter = new Twitter("student", "password"); //
+		updateButton.setOnClickListener(this);
+		twitter = new Twitter("student", "password");
 		twitter.setAPIRootUrl("http://yamba.marakana.com/api");
+		Log.d(TAG, "Connection Object created");     // .d() - debug    .e() - error   .w() - warning     .i() - info
 	}
 
 	// Called when button is clicked //
 	public void onClick(View v) {
-		twitter.setStatus(editText.getText().toString()); //
+		twitter.setStatus(editText.getText().toString());
 		Log.d(TAG, "onClicked");
 	}
 }
