@@ -3,19 +3,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              android:baselineAligned="false"
+              android:background="@drawable/background"
+        >
 
     <!-- Title TextView -->
 
     <TextView
+
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:gravity="center"
             android:text="@string/titleStatus"
             android:textSize="25sp"
-            android:textStyle="italic"/>
-
+            android:textStyle="italic"
+            android:textColor="#4b89dd"
+            />
     <!-- Text Counter TextView
  -->
     <TextView
@@ -24,7 +29,8 @@
             android:layout_gravity="right"
             android:id="@+id/textCount"
             android:text="000"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"
+            />
 
 
     <!-- Status EditText -->
@@ -34,8 +40,11 @@
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1"
-            android:gravity="top|center_horizontal"
-            android:hint="@string/hintText">
+            android:gravity="center_horizontal|top"
+            android:hint="@string/hintText"
+            android:selectAllOnFocus="false"
+            android:background="#cfff"
+            android:textAlignment="center">
     </EditText>
     <!-- Update Button -->
 
