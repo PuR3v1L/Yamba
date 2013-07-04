@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Yamba</string>
+    <string name="action_settings">Ρυθμίσεις</string>
+    <string name="titleStatus">Ανανέωση Κατάστασης</string>
+    <string name="hintText">Παρακαλώ εισάγεται την κατάστασής σας σε 140 χαρακτήρες...</string>
+    <string name="buttonUpdate">Ανανέωση</string>
+</resources>
