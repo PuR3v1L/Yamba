@@ -5,4 +5,10 @@
     <string name="titleStatus">Ανανέωση Κατάστασης</string>
     <string name="hintText">Παρακαλώ εισάγεται την κατάστασής σας σε 140 χαρακτήρες...</string>
     <string name="buttonUpdate">Ανανέωση</string>
+    <string name="titleUsername">Username</string>
+    <string name="summaryUsername">Enter your Usename</string>
+    <string name="titlePassword">Password</string>
+    <string name="summaryPassword">Enter your password</string>
+    <string name="settingsGeneralCategory">General Settings</string>
+    <string name="titlePrefs">Preferences</string>
 </resources>

@@ -1,12 +1,16 @@
 package com.marakana.yamba;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -17,7 +21,7 @@ import android.widget.Toast;
 import winterwell.jtwitter.Twitter;
 
 
-public class StatusActivity extends Activity implements OnClickListener, TextWatcher { //
+public class StatusActivity extends Activity implements OnClickListener, TextWatcher {
 
 
 	private static final String TAG = "StatusActivity";
@@ -82,6 +86,27 @@ public class StatusActivity extends Activity implements OnClickListener, TextWat
 			textCount.setTextColor(Color.RED);
 		else if (count < 15)
 			textCount.setTextColor(Color.YELLOW);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		//return super.onOptionsItemSelected(item);
+		switch (item.getItemId()) {     // figure out what was pressed
+			case R.id.itemPrefs:
+				startActivity(new Intent(this, PrefsActivity.class));   // start the PrefsActivity
+				break;
+		}
+
+		return true;
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		//return super.onCreateOptionsMenu(menu);
+		MenuInflater inflater = getMenuInflater();  // Menu inflater object
+		inflater.inflate(R.menu.menu, menu);
+		return true;
+
 	}
 
 	// Asychronous Task instead of thread
