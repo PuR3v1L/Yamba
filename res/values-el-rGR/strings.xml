@@ -5,10 +5,13 @@
     <string name="titleStatus">Ανανέωση Κατάστασης</string>
     <string name="hintText">Παρακαλώ εισάγεται την κατάστασής σας σε 140 χαρακτήρες...</string>
     <string name="buttonUpdate">Ανανέωση</string>
-    <string name="titleUsername">Username</string>
-    <string name="summaryUsername">Enter your Usename</string>
-    <string name="titlePassword">Password</string>
-    <string name="summaryPassword">Enter your password</string>
-    <string name="settingsGeneralCategory">General Settings</string>
-    <string name="titlePrefs">Preferences</string>
+    <string name="titleUsername">Όνομα Χρήστη</string>
+    <string name="summaryUsername">Πληκτρολογήστε το όνομα χρήστη</string>
+    <string name="titlePassword">Κωδικός</string>
+    <string name="summaryPassword">Πληκτρολογήστε το κωδικό σας</string>
+    <string name="settingsGeneralCategory">Γενικές Ρυθμίσεις</string>
+    <string name="titlePrefs">Επιλογές</string>
+    <string name="titleApiRoot">API Root</string>
+    <string name="summaryApiRoot">Επιλέξτε το επιθυμητό API Root</string>
+
 </resources>
