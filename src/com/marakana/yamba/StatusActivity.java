@@ -2,9 +2,11 @@ package com.marakana.yamba;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -19,12 +21,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import winterwell.jtwitter.Twitter;
+import winterwell.jtwitter.TwitterException;
 
 
-public class StatusActivity extends Activity implements OnClickListener, TextWatcher {
-
+public class StatusActivity extends Activity implements OnClickListener, TextWatcher, SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private static final String TAG = "StatusActivity";
+	SharedPreferences prefs;
 	EditText editText;
 	Button updateButton;
 	Twitter twitter;
@@ -39,6 +42,10 @@ public class StatusActivity extends Activity implements OnClickListener, TextWat
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_status);
 
+		// Setup preferences
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);    // Get the application's shared preferences
+		prefs.registerOnSharedPreferenceChangeListener(this);   // Register a listener to notify for changes
+
 		// Find views
 		editText = (EditText) findViewById(R.id.editText);
 		updateButton = (Button) findViewById(R.id.buttonUpdate);
@@ -49,9 +56,9 @@ public class StatusActivity extends Activity implements OnClickListener, TextWat
 		textCount.setTextColor(Color.GREEN);
 		editText.addTextChangedListener(this);  // TextWatcher call is attached to the editText
 
-		twitter = new Twitter("student", "password");
-		twitter.setAPIRootUrl("http://yamba.marakana.com/api");
-		Log.d(TAG, "Connection Object created");     // .d() - debug    .e() - error   .w() - warning     .i() - info   .wtf() - ...
+//		twitter = new Twitter("student", "password");
+//		twitter.setAPIRootUrl("http://yamba.marakana.com/api");
+//		Log.d(TAG, "Connection Object created");     // .d() - debug    .e() - error   .w() - warning     .i() - info   .wtf() - ...
 	}
 
 	// Called when button is clicked
@@ -60,7 +67,14 @@ public class StatusActivity extends Activity implements OnClickListener, TextWat
 		Button buttonClicked = (Button) v; // Identify the button which was pressed
 		Toast.makeText(StatusActivity.this, buttonClicked.getText(), Toast.LENGTH_SHORT).show(); // Toast it's text
 		String status = editText.getText().toString();
-		new PostToTwitter().execute(status);    // status goes in doInBackground()
+
+		// Initialise the object and post to twitter. We still need the AsyncTask although it is not used here.
+		try {
+			getTwitter().setStatus(status);
+		} catch (TwitterException e) {
+			Log.d(TAG, "Twitter setStatus failed: " + e);
+		}
+		//new PostToTwitter().execute(status);    // status goes in doInBackground()
 		//noinspection ConstantConditions
 		Log.d(TAG, "onClicked");
 	}
@@ -107,6 +121,30 @@ public class StatusActivity extends Activity implements OnClickListener, TextWat
 		inflater.inflate(R.menu.menu, menu);
 		return true;
 
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+		twitter = null;
+	}
+
+	private Twitter getTwitter() {
+		if (twitter == null) {
+			String username, password, apiRoot;
+
+			// Get the preferences. Attr 1 is it's value, Attr 2 is the default value
+			username = prefs.getString("username", "");
+			password = prefs.getString("password", "");
+			apiRoot = prefs.getString("apiRoot", "http://yamba.marakana.com/api");
+
+			//Connect to twitter.com
+			twitter = new Twitter(username, password);
+			twitter.setAPIRootUrl(apiRoot);
+
+			Log.d(TAG, "Connection Object created");     // .d() - debug    .e() - error   .w() - warning     .i() - info   .wtf() - ...
+		}
+
+		return twitter;
 	}
 
 	// Asychronous Task instead of thread
