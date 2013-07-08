@@ -68,14 +68,19 @@ public class StatusActivity extends Activity implements OnClickListener, TextWat
 		Toast.makeText(StatusActivity.this, buttonClicked.getText(), Toast.LENGTH_SHORT).show(); // Toast it's text
 		String status = editText.getText().toString();
 
-		// Initialise the object and post to twitter. We still need the AsyncTask although it is not used here.
+		// Initialise the object and post to twitter.
 		try {
-			getTwitter().setStatus(status);
+			//getTwitter().setStatus(status) // Won't work due to UI block
+			getTwitter();   // Initialise twitter object
+			new PostToTwitter().execute(status);    // status goes in doInBackground()
 		} catch (TwitterException e) {
 			Log.d(TAG, "Twitter setStatus failed: " + e);
 		}
-		//new PostToTwitter().execute(status);    // status goes in doInBackground()
-		//noinspection ConstantConditions
+
+		/*// Old code - Without shared preferences
+		new PostToTwitter().execute(status);    // status goes in doInBackground()*/
+
+		//no inspection Constant Conditions
 		Log.d(TAG, "onClicked");
 	}
 
@@ -123,13 +128,15 @@ public class StatusActivity extends Activity implements OnClickListener, TextWat
 
 	}
 
+	// Called When User changes the preferences
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
 		twitter = null;
 	}
 
+	// Initialise twitter each time the update button is clicked
 	private Twitter getTwitter() {
-		if (twitter == null) {
+		if (twitter == null) {  // if twitter is not initialised
 			String username, password, apiRoot;
 
 			// Get the preferences. Attr 1 is it's value, Attr 2 is the default value
@@ -150,8 +157,8 @@ public class StatusActivity extends Activity implements OnClickListener, TextWat
 	// Asychronous Task instead of thread
 	class PostToTwitter extends AsyncTask<String, Integer, String> {
 
-		/* Called to initiate the background activity.
-		The argument statuses comes from PostToTwitter().execute(status); */
+		// Called to initiate the background activity.
+		// The argument statuses comes from PostToTwitter().execute(status); *//*
 		@Override
 		protected String doInBackground(String... statuses) {
 			try {
