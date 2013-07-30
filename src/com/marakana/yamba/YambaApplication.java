@@ -17,6 +17,7 @@ public class YambaApplication extends Application implements SharedPreferences.O
     private static final String TAG = YambaApplication.class.getSimpleName();
     public Twitter twitter; //
     private SharedPreferences prefs;
+    private boolean serviceRunning;
 
     @Override
     public void onCreate() { //
@@ -24,6 +25,14 @@ public class YambaApplication extends Application implements SharedPreferences.O
         this.prefs = PreferenceManager.getDefaultSharedPreferences(this);
         this.prefs.registerOnSharedPreferenceChangeListener(this);
         Log.i(TAG, "onCreated");
+    }
+
+    public boolean isServiceRunning() { //
+        return serviceRunning;
+    }
+
+    public void setServiceRunning(boolean serviceRunning) { //
+        this.serviceRunning = serviceRunning;
     }
 
     @Override

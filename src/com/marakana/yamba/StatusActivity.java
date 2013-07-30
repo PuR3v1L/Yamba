@@ -20,10 +20,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-
 import winterwell.jtwitter.Twitter;
 import winterwell.jtwitter.TwitterException;
 
@@ -36,15 +32,6 @@ public class StatusActivity extends Activity implements OnClickListener, TextWat
     Button updateButton;
     Twitter twitter;
     TextView textCount;
-    String message;
-    DatagramSocket s;// socket for communication
-    String packetInfo;// string to be sent
-    byte[] txbuffer;// outgoing packet's information
-    int serverPort = 48000;// the port used by the server
-    byte[] hostIP = {(byte) 83, (byte) 212, (byte) 121, (byte) 161};// server's IP
-    InetAddress hostAddress;// server's address
-    DatagramPacket p;// packet used to send info
-    byte[] rxbuffer;
 
     /**
      * Called when the activity is first created.
@@ -84,7 +71,7 @@ public class StatusActivity extends Activity implements OnClickListener, TextWat
         // Initialise the object and post to twitter.
         try {
             //getTwitter().setStatus(status) // Won't work due to UI block
-            ((YambaApplication) getApplication()).getTwitter();   // Initialise twitter object
+            twitter = ((YambaApplication) getApplication()).getTwitter();   // Initialise twitter object
             new PostToTwitter().execute(status);    // status goes in doInBackground()
         } catch (TwitterException e) {
             Log.d(TAG, "Twitter setStatus failed: " + e);
@@ -124,6 +111,12 @@ public class StatusActivity extends Activity implements OnClickListener, TextWat
     public boolean onOptionsItemSelected(MenuItem item) {
         //return super.onOptionsItemSelected(item);
         switch (item.getItemId()) {     // figure out what was pressed
+            case R.id.itemServiceStart:
+                startService(new Intent(this, UpdaterService.class)); //
+                break;
+            case R.id.itemServiceStop:
+                stopService(new Intent(this, UpdaterService.class)); //
+                break;
             case R.id.itemPrefs:
                 startActivity(new Intent(this, PrefsActivity.class));   // start the PrefsActivity
                 break;
@@ -155,28 +148,13 @@ public class StatusActivity extends Activity implements OnClickListener, TextWat
         @Override
         protected String doInBackground(String... statuses) {
             try {
-                s = new DatagramSocket();// open a socket at a random port
-                rxbuffer = new byte[160];
-                DatagramPacket q = new DatagramPacket(rxbuffer, rxbuffer.length);// packed used to get info
-                hostAddress = InetAddress.getByAddress(hostIP);
-                packetInfo = statuses[0];
-                int size;
-                packetInfo = packetInfo.concat("PSTOP");
-                txbuffer = packetInfo.getBytes();
-                p = new DatagramPacket(txbuffer, txbuffer.length, hostAddress, serverPort);
-                // s.connect(hostAddress, serverPort);
-                s.send(p);
-                s.setSoTimeout(20000);
-                for (; ; ) {
-                    s.receive(q);
-                    message = new String(rxbuffer, 0, q.getLength());
-                    if (message != null) {
-                        if (message.endsWith("PSTOP")) {
-                            return message.substring(0, message.length() - 5);
-                            //size = q.getLength();
-                            //return Integer.toString(size);
-                        }
-                    }
+                try {
+                    Twitter.Status status = twitter.updateStatus(statuses[0]);
+                    return status.text;
+                } catch (Exception e) {
+                    Log.e(TAG, e.toString());
+                    e.printStackTrace();
+                    return "Failed to Post";
                 }
                 // Twitter.Status status = twitter.updateStatus(statuses[0]);
                 // return status.text;

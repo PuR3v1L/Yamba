@@ -14,5 +14,7 @@
     <string name="summaryApiRoot">Enter the prefered API Root</string>
     <string name="settingsGeneralCategory">General Settings</string>
     <string name="titlePrefs">Preferences</string>
+    <string name="titleServiceStart">Start Service</string>
+    <string name="titleServiceStop">Stop Service</string>
 
 </resources>
