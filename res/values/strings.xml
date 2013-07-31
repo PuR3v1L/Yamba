@@ -16,5 +16,9 @@
     <string name="titlePrefs">Preferences</string>
     <string name="titleServiceStart">Start Service</string>
     <string name="titleServiceStop">Stop Service</string>
+    <string name="titleTimeline">Timeline</string>
+    <string name="msgSetupPrefs">Register...</string>
+    <string name="titlePurge">Purge</string>
+    <string name="msgAllDataPurged">All Data is Purged</string>
 
 </resources>

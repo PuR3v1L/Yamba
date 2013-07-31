@@ -1,18 +1,12 @@
 package com.marakana.yamba;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -24,7 +18,7 @@ import winterwell.jtwitter.Twitter;
 import winterwell.jtwitter.TwitterException;
 
 
-public class StatusActivity extends Activity implements OnClickListener, TextWatcher, SharedPreferences.OnSharedPreferenceChangeListener {
+public class StatusActivity extends BaseActivity implements OnClickListener, TextWatcher {
 
     private static final String TAG = "StatusActivity";
     SharedPreferences prefs;
@@ -41,10 +35,6 @@ public class StatusActivity extends Activity implements OnClickListener, TextWat
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_status);
-
-        // Setup preferences
-        prefs = PreferenceManager.getDefaultSharedPreferences(this);    // Get the application's shared preferences
-        prefs.registerOnSharedPreferenceChangeListener(this);   // Register a listener to notify for changes
 
         // Find views
         editText = (EditText) findViewById(R.id.editText);
@@ -107,38 +97,8 @@ public class StatusActivity extends Activity implements OnClickListener, TextWat
             textCount.setTextColor(Color.YELLOW);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        //return super.onOptionsItemSelected(item);
-        switch (item.getItemId()) {     // figure out what was pressed
-            case R.id.itemServiceStart:
-                startService(new Intent(this, UpdaterService.class)); //
-                break;
-            case R.id.itemServiceStop:
-                stopService(new Intent(this, UpdaterService.class)); //
-                break;
-            case R.id.itemPrefs:
-                startActivity(new Intent(this, PrefsActivity.class));   // start the PrefsActivity
-                break;
-        }
-
-        return true;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //return super.onCreateOptionsMenu(menu);
-        MenuInflater inflater = getMenuInflater();  // Menu inflater object
-        inflater.inflate(R.menu.menu, menu);
-        return true;
-
-    }
 
     // Called When User changes the preferences
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-        twitter = null;
-    }
 
     // Asychronous Task instead of thread
     class PostToTwitter extends AsyncTask<String, Integer, String> {

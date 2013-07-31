@@ -53,9 +53,11 @@ public class UpdaterService extends Service {
     }
 
     private class Updater extends Thread { //
+
         public Updater() {
             super("UpdaterService-Updater");
         }
+
         @Override
         public void run() {
             UpdaterService updaterService = UpdaterService.this;

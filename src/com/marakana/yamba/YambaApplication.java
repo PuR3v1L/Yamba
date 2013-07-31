@@ -35,6 +35,10 @@ public class YambaApplication extends Application implements SharedPreferences.O
         return statusData;
     }
 
+    public SharedPreferences getPrefs() {
+        return prefs;
+    }
+
     // Connects to the online service and puts the latest statuses into DB.
 // Returns the count of new statuses
     public synchronized int fetchStatusUpdates() { //
